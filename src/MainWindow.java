@@ -56,7 +56,8 @@ public class MainWindow extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         for(int i = 0; i<Constants.gridHeight; i++) {
             for(int j = 0; j<Constants.gridWidth; j++) {
-                if(e.getSource() == buttonGrid[i][j]) {
+                // If statment changed for 3d map
+                if((i != 0 || j != 0) && e.getSource() == buttonGrid[i][j]) {
                     Constants.map[i][j] = !Constants.map[i][j];
                     buttonGrid[i][j].setBackground(Constants.map[i][j]?Color.decode("#f08e05"):Color.DARK_GRAY);
                     return;
