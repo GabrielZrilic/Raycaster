@@ -6,7 +6,5 @@ public class Constants {
     public static int gridWidth = 20;
     public static int gridHeight = 20;
     public static boolean[][] map = new boolean[gridHeight][gridWidth];
-    public static int cellHeight = Constants.coordinateSizeY/Constants.gridHeight;
-    public static int cellWidth = Constants.coordinateSizeX/Constants.gridWidth;
     public static double twoPI = Math.PI*2;
 }

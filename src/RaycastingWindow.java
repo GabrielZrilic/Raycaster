@@ -59,7 +59,7 @@ public class RaycastingWindow extends JPanel implements ActionListener, KeyListe
         
         for(int i = 0, x = Constants.windowWidth; i<Raycasting.numberOfRays; i++, x -= Constants.windowWidth/Raycasting.numberOfRays) {
             g2d.setColor(lines[i].color);
-            g2d.drawLine(x, (int) (Constants.windowHeight/2 - lines[i].height), x, (int) (Constants.windowHeight/2 + lines[i].height));
+            g2d.drawLine(x, (int) (Constants.windowHeight/2 - lines[i].height/2), x, (int) (Constants.windowHeight/2 + lines[i].height/2));
         }
     }
 

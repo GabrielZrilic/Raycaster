@@ -13,20 +13,18 @@ public class Raycasting {
     public static RayLines[] dda(Ray[] rays) {
         RayLines[] lineHeights = new RayLines[numberOfRays];
         for (int i = 0; i < rays.length; i++) {
-            int mapX = (int) (Player.x / Constants.cellWidth);
-            int mapY = (int) (Player.y / Constants.cellHeight);
+            int mapX = (int) (Player.x);
+            int mapY = (int) (Player.y);
 
             double sideDistX;
             double sideDistY;
 
             double deltaDistX = Math
-                    .sqrt(Constants.cellWidth * Constants.cellWidth
-                            + (rays[i].dirY * rays[i].dirY * Constants.cellWidth * Constants.cellWidth)
-                                    / (rays[i].dirX * rays[i].dirX));
+                    .sqrt(1 + (rays[i].dirY * rays[i].dirY)
+                            / (rays[i].dirX * rays[i].dirX));
             double deltaDistY = Math
-                    .sqrt(Constants.cellWidth * Constants.cellWidth
-                            + (rays[i].dirX * rays[i].dirX * Constants.cellWidth * Constants.cellWidth)
-                                    / (rays[i].dirY * rays[i].dirY));
+                    .sqrt(1 + (rays[i].dirX * rays[i].dirX)
+                            / (rays[i].dirY * rays[i].dirY));
             double perpWallDist;
 
             double stepX = 0, stepY = 0;
@@ -34,30 +32,28 @@ public class Raycasting {
             Side side = null;
 
             if (rays[i].dirX < 0) {
-                stepX = -Constants.cellWidth;
-                sideDistX = (Player.x - mapX * Constants.cellWidth) * deltaDistX / Constants.cellWidth;
+                stepX = -1;
+                sideDistX = (Player.x - mapX) * deltaDistX;
             } else {
-                stepX = Constants.cellWidth;
-                sideDistX = (mapX * Constants.cellWidth + Constants.cellWidth - Player.x) * deltaDistX
-                        / Constants.cellWidth;
+                stepX = 1;
+                sideDistX = (mapX + 1 - Player.x) * deltaDistX;
             }
             if (rays[i].dirY < 0) {
-                stepY = -Constants.cellHeight;
-                sideDistY = (Player.y - mapY * Constants.cellHeight) * deltaDistY / Constants.cellHeight;
+                stepY = -1;
+                sideDistY = (Player.y - mapY) * deltaDistY;
             } else {
-                stepY = Constants.cellHeight;
-                sideDistY = (mapY * Constants.cellHeight + Constants.cellHeight - Player.y) * deltaDistY
-                        / Constants.cellHeight;
+                stepY = 1;
+                sideDistY = (mapY + 1 - Player.y) * deltaDistY;
             }
 
             while (!hit) {
                 if (sideDistX < sideDistY) {
                     sideDistX += deltaDistX;
-                    mapX += stepX / Constants.cellWidth;
+                    mapX += stepX;
                     side = Side.EAST_WEST;
                 } else {
                     sideDistY += deltaDistY;
-                    mapY += stepY / Constants.cellHeight;
+                    mapY += stepY;
                     side = Side.NORTH_SOUTH;
                 }
                 if (mapY < 0 || mapY >= Constants.map.length || mapX < 0 || mapX >= Constants.map.length
