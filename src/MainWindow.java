@@ -15,7 +15,7 @@ public class MainWindow extends JFrame implements ActionListener {
     private JPanel gridPanel;
 
     public MainWindow() {
-        this.setSize(1000, 1000);
+        this.setSize(Constants.windowWidth, Constants.windowHeight);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         buttonGrid = new JButton[Constants.gridHeight][Constants.gridWidth];

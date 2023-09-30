@@ -8,7 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -17,11 +16,9 @@ public class RaycastingWindow extends JPanel implements ActionListener, KeyListe
     private Timer timer;
 
     public RaycastingWindow() {
-        // Best looking when divisible with 12
-        // Can go over 360
-        Raycasting.numberOfRays = 8;
+        Raycasting.numberOfRays = Constants.windowWidth;
 
-        this.setPreferredSize(new Dimension(1000, 1000));
+        this.setPreferredSize(new Dimension(Constants.windowWidth, Constants.windowHeight));
         this.setFocusable(true);
         this.requestFocus();
         this.addKeyListener(this);
@@ -43,39 +40,26 @@ public class RaycastingWindow extends JPanel implements ActionListener, KeyListe
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         // Draw here
-        drawGrid(g2d);
-        drawWalls(g2d);
+        // drawGrid(g2d);
+        // drawWalls(g2d);
         drawRaysAndPlayer(g2d);
 
         Toolkit.getDefaultToolkit().sync();
         g2d.dispose();
     }
 
-    private void drawGrid(Graphics2D g2d) {
-        g2d.setColor(Color.DARK_GRAY);
-        for(int i = 0; i<Constants.windowHeight; i+=Constants.cellHeight) {
-            for(int j = 0; j<Constants.windowWidth; j+=Constants.cellWidth) g2d.drawRect(i, j, Constants.cellHeight, Constants.cellWidth);
-        }
-    }
-
-    private void drawWalls(Graphics2D g2d) {
-        g2d.setColor(Color.GRAY);
-        for(int i = 0; i<Constants.gridHeight; i++) {
-            for(int j = 0; j<Constants.gridWidth; j++) {
-                if(Constants.map[i][j]) g2d.fillRect(j*Constants.cellHeight, i*Constants.cellWidth, Constants.cellHeight, Constants.cellWidth);
-            }
-        }
-    }
-
     private void drawRaysAndPlayer(Graphics2D g2d) {
-        double[][] rays = Raycasting.endPointsOfVectors(Player.dirX, Player.dirY, Player.planeX, Player.planeY);
         g2d.setColor(Color.RED);
         g2d.fillOval((int) Player.x, (int) Player.y, 2, 2);
 
-        g2d.setColor(Color.WHITE);
-        for(int i = 0; i<rays.length; i++) {
-            g2d.drawLine((int) Player.x, (int) Player.y, 
-                         (int) (rays[i][0] + Player.x), (int) (rays[i][1] + Player.y));
+
+        Ray[] rays = Raycasting.showRays();
+        RayLines[] lines = new RayLines[Raycasting.numberOfRays];
+        lines = Raycasting.dda(rays);
+        
+        for(int i = 0, x = Constants.windowWidth; i<Raycasting.numberOfRays; i++, x -= Constants.windowWidth/Raycasting.numberOfRays) {
+            g2d.setColor(lines[i].color);
+            g2d.drawLine(x, (int) (Constants.windowHeight/2 - lines[i].height), x, (int) (Constants.windowHeight/2 + lines[i].height));
         }
     }
 
