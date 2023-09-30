@@ -2,8 +2,9 @@ import java.awt.Color;
 
 public class Raycasting {
     public static int numberOfRays;
+    private static int distanceOfView = 6;
 
-    public static Ray[] showRays() {
+    public static Ray[] createUnitVectors() {
         Ray[] rays = new Ray[numberOfRays];
         for (int i = 0; i < numberOfRays; i++)
             rays[i] = new Ray((double) numberOfRays, (double) i);
@@ -13,8 +14,8 @@ public class Raycasting {
     public static RayLines[] dda(Ray[] rays) {
         RayLines[] lineHeights = new RayLines[numberOfRays];
         for (int i = 0; i < rays.length; i++) {
-            int mapX = (int) (Player.x);
-            int mapY = (int) (Player.y);
+            int mapX = (int) (Camera.x);
+            int mapY = (int) (Camera.y);
 
             double sideDistX;
             double sideDistY;
@@ -33,17 +34,17 @@ public class Raycasting {
 
             if (rays[i].dirX < 0) {
                 stepX = -1;
-                sideDistX = (Player.x - mapX) * deltaDistX;
+                sideDistX = (Camera.x - mapX) * deltaDistX;
             } else {
                 stepX = 1;
-                sideDistX = (mapX + 1 - Player.x) * deltaDistX;
+                sideDistX = (mapX + 1 - Camera.x) * deltaDistX;
             }
             if (rays[i].dirY < 0) {
                 stepY = -1;
-                sideDistY = (Player.y - mapY) * deltaDistY;
+                sideDistY = (Camera.y - mapY) * deltaDistY;
             } else {
                 stepY = 1;
-                sideDistY = (mapY + 1 - Player.y) * deltaDistY;
+                sideDistY = (mapY + 1 - Camera.y) * deltaDistY;
             }
 
             while (!hit) {
@@ -62,16 +63,29 @@ public class Raycasting {
             }
 
             Color color;
+            int height = 0;
+            int dark = 0;
+            int dist = 0;
 
             if (side == Side.EAST_WEST) {
                 perpWallDist = (sideDistX - deltaDistX);
-                color = new Color(255, 0, 0);
+                dist = (int) sideDistX;
+                height = (int) (Constants.windowHeight / perpWallDist);
+                dark = (distanceOfView * 255) / dist;
+                if (dark > 255)
+                    dark = 255;
+                color = new Color(dark, dark, dark);
             } else {
                 perpWallDist = (sideDistY - deltaDistY);
-                color = new Color(247, 76, 2);
+                dist = (int) sideDistY;
+                height = (int) (Constants.windowHeight / perpWallDist);
+                dark = (distanceOfView * 255) / dist;
+                if (dark > 200)
+                    dark = 200;
+                color = new Color(dark, dark, dark);
             }
 
-            lineHeights[i] = new RayLines((int) (Constants.windowHeight / perpWallDist), color);
+            lineHeights[i] = new RayLines(height, color);
         }
 
         return lineHeights;
@@ -84,8 +98,8 @@ class Ray {
 
     public Ray(double w, double z) {
         double cameraX = 2 * z / w - 1;
-        dirX = Player.dirX + Player.planeX * cameraX;
-        dirY = Player.dirY + Player.planeY * cameraX;
+        dirX = Camera.dirX + Camera.planeX * cameraX;
+        dirY = Camera.dirY + Camera.planeY * cameraX;
     }
 }
 
