@@ -182,11 +182,40 @@ $$
 \begin{bmatrix} \cos\phi & -\sin\phi \\\ \sin\phi & \cos\phi \end{bmatrix}
 \begin{bmatrix}dirX \\\ dirY\end{bmatrix}
 $$
+<br></br>
 
 ![Slika 10](https://github.com/GabrielZrilic/Raycaster/blob/master/.images/Slika10.png)
 
+U kodu je implementirano na ovaj način:
+```java
+public static void updateRotation() {
+    if (rotation == Rotation.RIGHT)
+        rotate(rotationValue);
+    else if (rotation == Rotation.LEFT)
+        rotate(-rotationValue);
+}
+
+private static void rotate(double phi) {
+    // Spremi početne vrijednosti
+    double initDirX = dirX, initDirY = dirY;
+    double initPlaneX = planeX, initPlaneY = planeY;
+
+    // Izračunaj kosinus i sinus vrijednost kuta
+    double cos_phi = Math.cos(phi), sin_phi = Math.sin(phi);
+
+
+    // Postavi nove vrijednosti
+    dirX = initDirX * cos_phi - initDirY * sin_phi;
+    dirY = initDirX * sin_phi + initDirY * cos_phi;
+
+    planeX = initPlaneX * cos_phi - initPlaneY * sin_phi;
+    planeY = initPlaneX * sin_phi + initPlaneY * cos_phi;
+}
+```
+
 ### Raycasting
 
+Raycasting tehnika *ispaljuje* zrake, kada zraka naiđe na prepreku izračuna se udaljenost od početne točke do prepreke. Koristeći tu udaljenost i $\overrightarrow{plane}$ izračunamo okomucu na $\overrightarrow{plane}$ od točke kolizije s preprekom.
 
 ## Zaključak
 ## Literatura
