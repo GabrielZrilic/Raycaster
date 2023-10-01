@@ -2,7 +2,7 @@ public class Camera {
     private static double rotationValue = 0.04;
     private static double movementValue = 0.1;
 
-    public static double dirX = 0, dirY = 1, planeX = 1, planeY = 0;
+    public static double dirX = 0, dirY = 1, planeX = 0.75, planeY = 0;
     public static double x = 0.5;
     public static double y = 0.5;
     public static Movement movement = Movement.STILL;

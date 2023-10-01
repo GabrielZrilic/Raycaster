@@ -1,6 +1,6 @@
 # Raycaster - Završni rad
 
-Paragraf (uvod)
+Raycasting je tehnika prikazivanja 2D prostora u *3D-u*.
 
 ## Sadržaj
 - [Raycaster](#raycaster)
@@ -120,11 +120,10 @@ Kut između x osi i hipotenuze $d$ je $\theta$, i zbog toga znamo kako je:
 ```math
 \cos\theta=\frac{dirX}{d}
 ```
-
 ```math
 \sin\theta=\frac{dirY}{d}
 ```
-
+<br></br>
 
 ```math
 d\cos\theta=dirX
@@ -141,7 +140,7 @@ Kut između vektora $\overrightarrow{dir}$ i $\overrightarrow{dir'}$ ćemo izraz
 ```math
 \sin(\theta+\phi)=\frac{dirY'}{d}
 ```
-
+<br></br>
 
 ```math
 dirX'=d\cos(\theta+\phi)
@@ -158,7 +157,7 @@ dirX'=d(\cos\theta\cos\phi - \sin\theta\sin\phi)
 ```math
 dirY'=d(\sin\theta\cos\phi + \cos\theta\sin\phi)
 ```
-
+<br></br>
 
 ```math
 dirX'=d\cos\theta\cos\phi - d\sin\theta\sin\phi
