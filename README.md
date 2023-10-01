@@ -60,7 +60,7 @@ Klasa `RaycastingWindow` sadrži vrijednosti i funkcije za upravljanje kamerom, 
 
 Klasa `Camera` sadrži podatke o poziciji, rotaciji i vidnom polju kamere, zajedno s funkcijama za pomicanje i rotaciju kamere.
 
-![Slika 4](https://github.com/GabrielZrilic/Raycaster/blob/master/.images/Slika4.png)
+![Slika 4](https://github.com/GabrielZrilic/Raycaster/blob/master/.images/Slika4.svg)
 
 
 ### Pomicanje, rotacija i vektori
@@ -117,22 +117,45 @@ U idućim pojašnjenjima za duljinu vektora uzimamo $d$, jer se objašnjava kako
 
 Kut između x osi i hipotenuze $d$ je $\theta$, i zbog toga znamo kako je:
 
-$$\cos\theta=\frac{dirX}{d}\\\sin\theta=\frac{dirY}{d}$$
-$$d\cos\theta=dirX\\d\sin\theta=dirY$$
+$$
+\cos\theta=\frac{dirX}{d} \\ 
+\sin\theta=\frac{dirY}{d}
+$$
+
+$$
+d\cos\theta=dirX\\d\sin\theta=dirY
+$$
 
 Kut između vektora $\overrightarrow{dir}$ i $\overrightarrow{dir'}$ ćemo izraziti kao $\phi$. Zbog zoga znamo kako je kut između osi x i $\overrightarrow{dir'}$ jednak $\theta+\phi$. Kako bismo izračunali $dirX'$ i $dirY'$ slijedi:
 
-$$\cos(\theta+\phi)=\frac{dirX'}{d} \\\ \sin(\theta+\phi)=\frac{dirY'}{d}$$
-$$dirX'=d\cos(\theta+\phi) \\\ dirY'=d\sin(\theta+\phi)$$
+$$
+\cos(\theta+\phi)=\frac{dirX'}{d} \\ 
+\sin(\theta+\phi)=\frac{dirY'}{d}
+$$
+
+$$
+dirX'=d\cos(\theta+\phi) \\ 
+dirY'=d\sin(\theta+\phi)
+$$
 
 Koristeći trigonometrijske indetitete rastavljamo na:
 
-$$dirX'=d(\cos\theta\cos\phi - \sin\theta\sin\phi) \\\ dirY'=d(\sin\theta\cos\phi + \cos\theta\sin\phi)$$
-$$dirX'=d\cos\theta\cos\phi - d\sin\theta\sin\phi \\\ dirY'=d\sin\theta\cos\phi + d\cos\theta\sin\phi$$
+$$
+dirX'=d(\cos\theta\cos\phi - \sin\theta\sin\phi) \\ 
+dirY'=d(\sin\theta\cos\phi + \cos\theta\sin\phi)
+$$
+
+$$
+dirX'=d\cos\theta\cos\phi - d\sin\theta\sin\phi \\ 
+dirY'=d\sin\theta\cos\phi + d\cos\theta\sin\phi
+$$
 
 Koristeći $d\cos\theta$ i $d\sin\theta$ pojednostavljujemo na:
 
-$$dirX'=dirX\cos\phi-dirY\sin\phi\\dirY'=dirY\cos\phi+dirX\sin\phi$$
+$$
+dirX'=dirX\cos\phi-dirY\sin\phi \\ 
+dirY'=dirY\cos\phi+dirX\sin\phi
+$$
 
 Taj izraz možemo prikazati matricom:
 
