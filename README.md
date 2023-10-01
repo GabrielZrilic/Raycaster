@@ -119,7 +119,8 @@ Kut između x osi i hipotenuze $d$ je $\theta$, i zbog toga znamo kako je:
 
 $$\cos\theta=\frac{dirX}{d}$$ 
 $$\sin\theta=\frac{dirY}{d}$$
-<br>
+
+---
 
 $$d\cos\theta=dirX$$
 $$d\sin\theta=dirY$$
@@ -128,7 +129,8 @@ Kut između vektora $\overrightarrow{dir}$ i $\overrightarrow{dir'}$ ćemo izraz
 
 $$\cos(\theta+\phi)=\frac{dirX'}{d}$$
 $$\sin(\theta+\phi)=\frac{dirY'}{d}$$
-<br>
+
+---
 
 $$dirX'=d\cos(\theta+\phi)$$
 $$dirY'=d\sin(\theta+\phi)$$
@@ -137,7 +139,8 @@ Koristeći trigonometrijske indetitete rastavljamo na:
 
 $$dirX'=d(\cos\theta\cos\phi - \sin\theta\sin\phi)$$
 $$dirY'=d(\sin\theta\cos\phi + \cos\theta\sin\phi)$$
-<br>
+
+---
 
 $$dirX'=d\cos\theta\cos\phi - d\sin\theta\sin\phi$$
 $$dirY'=d\sin\theta\cos\phi + d\cos\theta\sin\phi$$
