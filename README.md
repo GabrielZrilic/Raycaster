@@ -217,9 +217,16 @@ private static void rotate(double phi) {
 
 Raycasting tehnika *ispaljuje* zrake, kada zraka naiđe na prepreku izračuna se udaljenost od početne točke do prepreke. Koristeći tu udaljenost i $\overrightarrow{plane}$ izračunamo okomucu na $\overrightarrow{plane}$ od točke kolizije s preprekom.
 
+Ali jedna zraka ne može prikazati cijelu sliku. Zbog toga trebamo više zraka koje idu u različite smjerove. Trebamo onoliko vektora (zraka) koliko je širok ekran.
+
+#### Stvaranje zrake
+
+Prije nego što izračunamo odaljenost od kamere do objekta trebamo stvoriti zraku, točnije samo njezin smjer. To ćemo učiniti jediničnim vektorom. Za računanje toga porteban nam je $\overrightarrow{dir}$ i $\overrightarrow{plane}$.
+
+
+
 ## Zaključak
 ## Literatura
 - [Wikipedia - Ray casting](https://en.wikipedia.org/wiki/Ray_casting)
 - [Lode's Computer Graphics Tutorial](https://lodev.org/cgtutor/raycasting.html)
 - [Ray casting fully explained. Pseudo 3D game](https://www.youtube.com/watch?v=g8p7nAbDz6Y)
-## Prilozi

@@ -64,25 +64,22 @@ public class Raycasting {
 
             Color color;
             int height = 0;
-            int dark = 0;
-            int dist = 0;
+            int brightness = 0;
 
             if (side == Side.EAST_WEST) {
                 perpWallDist = (sideDistX - deltaDistX);
-                dist = (int) sideDistX;
                 height = (int) (Constants.windowHeight / perpWallDist);
-                dark = (distanceOfView * 255) / dist;
-                if (dark > 255)
-                    dark = 255;
-                color = new Color(dark, dark, dark);
+                brightness = (int) ((distanceOfView * 255) / sideDistX);
+                if (brightness > 255)
+                    brightness = 255;
+                color = new Color(brightness, brightness, brightness);
             } else {
                 perpWallDist = (sideDistY - deltaDistY);
-                dist = (int) sideDistY;
                 height = (int) (Constants.windowHeight / perpWallDist);
-                dark = (distanceOfView * 255) / dist;
-                if (dark > 200)
-                    dark = 200;
-                color = new Color(dark, dark, dark);
+                brightness = (int) ((distanceOfView * 255) / sideDistY);
+                if (brightness > 200)
+                    brightness = 200;
+                color = new Color(brightness, brightness, brightness);
             }
 
             lineHeights[i] = new RayLines(height, color);
