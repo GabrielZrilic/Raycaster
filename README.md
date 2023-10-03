@@ -182,10 +182,47 @@ $$
 \begin{bmatrix} \cos\phi & -\sin\phi \\\ \sin\phi & \cos\phi \end{bmatrix}
 \begin{bmatrix}dirX \\\ dirY\end{bmatrix}
 $$
+<br></br>
 
 ![Slika 10](https://github.com/GabrielZrilic/Raycaster/blob/master/.images/Slika10.png)
 
+U kodu je implementirano na ovaj način:
+```java
+public static void updateRotation() {
+    if (rotation == Rotation.RIGHT)
+        rotate(rotationValue);
+    else if (rotation == Rotation.LEFT)
+        rotate(-rotationValue);
+}
+
+private static void rotate(double phi) {
+    // Spremi početne vrijednosti
+    double initDirX = dirX, initDirY = dirY;
+    double initPlaneX = planeX, initPlaneY = planeY;
+
+    // Izračunaj kosinus i sinus vrijednost kuta
+    double cos_phi = Math.cos(phi), sin_phi = Math.sin(phi);
+
+
+    // Postavi nove vrijednosti
+    dirX = initDirX * cos_phi - initDirY * sin_phi;
+    dirY = initDirX * sin_phi + initDirY * cos_phi;
+
+    planeX = initPlaneX * cos_phi - initPlaneY * sin_phi;
+    planeY = initPlaneX * sin_phi + initPlaneY * cos_phi;
+}
+```
+
 ### Raycasting
+
+Raycasting tehnika *ispaljuje* zrake, kada zraka naiđe na prepreku izračuna se udaljenost od početne točke do prepreke. Koristeći tu udaljenost i $\overrightarrow{plane}$ izračunamo okomucu na $\overrightarrow{plane}$ od točke kolizije s preprekom.
+
+Ali jedna zraka ne može prikazati cijelu sliku. Zbog toga trebamo više zraka koje idu u različite smjerove. Trebamo onoliko vektora (zraka) koliko je širok ekran.
+
+#### Stvaranje zrake
+
+Prije nego što izračunamo odaljenost od kamere do objekta trebamo stvoriti zraku, točnije samo njezin smjer. To ćemo učiniti jediničnim vektorom. Za računanje toga porteban nam je $\overrightarrow{dir}$ i $\overrightarrow{plane}$.
+
 
 
 ## Zaključak
@@ -193,4 +230,3 @@ $$
 - [Wikipedia - Ray casting](https://en.wikipedia.org/wiki/Ray_casting)
 - [Lode's Computer Graphics Tutorial](https://lodev.org/cgtutor/raycasting.html)
 - [Ray casting fully explained. Pseudo 3D game](https://www.youtube.com/watch?v=g8p7nAbDz6Y)
-## Prilozi
