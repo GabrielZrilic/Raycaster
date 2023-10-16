@@ -1,15 +1,21 @@
 # Raycaster - Završni rad
 
-Raycasting je tehnika prikazivanja 2D prostora u *3D-u*.
+U digitalnom svijetu, vizualna reprezentacija prostora ima ključnu ulogu. Raycasting, tehnika koja omogućuje prikazivanje 2D prostora u okružju koje simulira 3D dimenziju, nudi jedinstven pristup tom zadatku. Osim algoritma raycastinga, ovaj rad istražuje tehnologije koje su korištene.
 
 ## Sadržaj
 - [Raycaster](#raycaster)
     - [Instalacija](#instalacija)
     - [Korištenje](#korištenje)
-    - [Korištene tehnologije](#korištene-tehnologije)
+    - [Java](#java)
+        - [Tipovi podataka](#tipovi-podataka)
+        - [Swing](#swing)
     - [Struktura programa](#struktura-programa)
     - [Pomicanje, rotacija i vektori](#pomicanje-rotacija-i-vektori)
+        - [Pomak](#pomak)
+        - [Rotacija](#rotacija)
     - [Raycasting](#raycasting)
+        - [Stvaranje zrake](#stvaranje-zrake)
+        - [Prikaz zrake](#prikaz-zrake)
 - [Zaključak](#zaključak)
 - [Literatura](#literatura)
 - [Prilozi](#prilozi)
@@ -20,7 +26,7 @@ Raycasting je tehnika prikazivanja 2D prostora u *3D-u*.
 
 Za pokretanje ovog programa potrebno je imati instaliranu Java JRE (Java Runtime Environment) i neki od popularnih uređivača koda kao što su Visual Studio Code, IntelliJ IDEA, IntelliJ IDEA, ili Eclipse.
 
-Kod programa možete pokrenuti iz svog odabranog uređivača koda ili jednostavno pokrenuti izvršnu datoteku `Raycasting.jar`. Izvorni kod projekta dostupan je na [GitHub repozitoriju](https://github.com/GabrielZrilic/Raycaster), gdje ga možete preuzeti i prilagoditi prema svojim potrebama.
+Kod programa možete pokrenuti iz svog odabranog uređivača koda ili jednostavno pokrenuti izvršnu datoteku `Raycasting.jar`.
 
 ### Korištenje
 
@@ -40,17 +46,104 @@ Kada završite s postavljanjem zidova, jednostavno pritisnite gumb `Create`. Pro
 
 Ovaj program pruža zanimljivu vizualizaciju rada raycasting algoritma i omogućuje vam da eksperimentirate s različitim mapama kako biste bolje razumjeli njegovo funkcioniranje.
 
-### Korištene tehnologije
+### Java
+Java je programski jezik koji je razvijen od tvrtke Sun Microsystems. To je objrktno orijentinan programski jezik, što znači da su podaci i funkcije podjeljeni u klase, koje omogućuju stvaranje objekata, nasljeđivanje, enkapsulacija, polimorfizam i apstrakciju.
 
-Ovaj projekt koristi nekoliko ključnih tehnologija kako bi omogućio raycasting simulaciju:
+Da bi se nastavak rada bolje razumio, u nastavku će biti opisane osnove Java programskog jezika.
 
-- **Java**: Osnovni programski jezik u kojem je napisana aplikacija. Java omogućuje platformsku neovisnost i lakoću razvoja.
+#### Tipovi podataka
+Java, kao strogo tipizirani programski jezik, zahtijeva da svaka varijabla ima određeni tip podataka koji definira vrstu vrijednosti koja se može pohraniti u toj varijabli. Ovo je važno jer pomaže u provjeri valjanosti i sigurnosti kod izvođenja koda. Neke od osnovnih tipova podataka su:
+- Cijeli broj (`int`) - Ovo su tipovi koji predstavljaju cijele brojeve. Na primjer, int se koristi za pohranu cjelobrojnih vrijednosti kao što su 5, -10, 1000 itd.
+```java
+    int number = 5;
+```
+- Realni brojevi (`double`, `float`) - Ovi tipovi podataka koriste se za pohranu decimalnih brojeva. `double` se često koristi za veću preciznost, dok se `float` koristi kada je potrebno manje memorije.
+```java
+    double number1 = 5.5;
+    float number2 = 5.5;
+```
+- Znakovi (`char`) - Tip `char` koristi se za pohranu pojedinačnih znakova, kao što su slova, brojevi i posebni znakovi.
+```java
+    char ch = 'a';
+```
+- Logički tip (`boolean`) - Ovaj tip podataka ima samo dvije moguće vrijednosti: `true` ili `false`. Koristi se za provođenje uvjeta i logičkih operacija.
+```java
+    boolean isRunning = true;
+```
+- Nizovi - Nizovi su skupovi istog tipa podataka koji omogućavaju pohranu više vrijednosti istog tipa.
+```java
+    int[] array = new int[5];   // Stvara niz s 5 elemenata
+```
+- Objekti - Java omogućava kreiranje vlastitih tipova podataka pomoću klasa. Ovo su tzv. "referentni" tipovi podataka jer se ne pohranjuju izravno u memoriju kao cjelobrojni tipovi, već se koriste reference na objekte. Klasa sadrži konstruktor, podatke i funkcije.
+```java
+    class MainClass {
+        public static void main(String[] args) {
+            Rectangle rec = new Rectangle(2, 5.5);  // Stvara se objekt
+            
+            double area, volume;
 
-- **Visual Studio Code (VSCode)**: Uređivač koda koji je korišten za razvoj Java aplikacije. VSCode je popularan alat među programerima zbog svoje prilagodljivosti i ekstenzibilnosti.
+            rec.a = 4.5;                    // Pristupa se i miljenja vrijednost
 
-- **GitHub**: Za verzioniranje koda i suradnju na projektu korišten je GitHub repozitorij. Ovo omogućuje timski rad, praćenje promjena i upravljanje projektom.
+            area = rec.area();              // Površina se sprema u area
+            volume = rec.volume(7.2);       // Volumen se sprema u volume
+        }
+    }
 
-- **FlatLaf**: Tema za Java Swing koja pruža moderno i privlačno korisničko sučelje. FlatLaf je odabran kako bi se poboljšala estetika aplikacije i omogućila bolja interakcija s korisnicima.
+    class Rectangle {
+        public double a;                    // Vrijednosti klase su public, bilo
+        public double b;                    // gdje se može pristupjeti
+
+        Rectangle(double a, double b) {     // Deklaracija konstraktora
+            this.a = a;                     // 'this' označava varijablu klase i 
+                                            // postavlja je na argument
+            this.b = b;
+        }
+
+        double area() {                     // Funkcija koristeći podatke iz klase
+            return a*b;                     // 'vraća' površinu četverokuta
+        }
+
+        double volume(double h) {           // Funkcija vraća volumen tijela kojem
+            return area()*h;                // kojem je baza ovaj četverokut
+        }
+    }
+```
+
+#### Swing
+Swing je *widget toolkit* za Javu. Nudi jednostavno stvaranje grafičkih sučelja. Prethodnik Swing-a, AWT je bio platformski ovisan i to je stvaralo probleme u razvijanju programa, jer je sama svrha Jave bila da bude platformski neovisna.
+
+Nasljednik Swing-a je JavaFX zbog toga jer je bio lakši za uređivanje, modernije kontrole i korištenje SceneBuilder-a, grafičkog stvaranja korisničkog sučelja.
+
+Primjer korištenja swinga:
+
+```java
+    public class MainClass {
+    
+        public static void main(String[] args) {
+            // Stvori prozor i definiraj izlaznu operaciju
+            JFrame frame = new JFrame("Layout");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+             
+            // Stvori gumbe
+            JButton jb1 = new JButton("Gumb 1");      
+            JButton jb2 = new JButton("Gumb 2");
+            JButton jb3 = new JButton("Gumb 3");          
+             
+            // Stvori panel na kojem će se nalaziti gumbi, dodaj gumbe
+            JPanel panel = new JPanel();
+            panel.setLayout(new FlowLayout());
+            panel.add(jb1);
+            panel.add(jb2);
+            panel.add(jb3);
+             
+            // Dodaj panel u prozor i napravi prozor vidljivim
+            frame.add(panel);
+            frame.pack();
+            frame.setVisible(true);     
+        }
+    
+    }
+```
 
 ### Struktura programa
 
@@ -223,10 +316,13 @@ Ali jedna zraka ne može prikazati cijelu sliku. Zbog toga trebamo više zraka k
 
 Prije nego što izračunamo odaljenost od kamere do objekta trebamo stvoriti zraku, točnije samo njezin smjer. To ćemo učiniti jediničnim vektorom. Za računanje toga porteban nam je $\overrightarrow{dir}$ i $\overrightarrow{plane}$.
 
-
+#### Prikaz zrake
+todo
 
 ## Zaključak
 ## Literatura
+- [Java (programski jezik)](https://hr.wikipedia.org/wiki/Java_(programski_jezik))
+- [Swing (Java)](https://en.wikipedia.org/wiki/Swing_(Java))
 - [Wikipedia - Ray casting](https://en.wikipedia.org/wiki/Ray_casting)
 - [Lode's Computer Graphics Tutorial](https://lodev.org/cgtutor/raycasting.html)
 - [Ray casting fully explained. Pseudo 3D game](https://www.youtube.com/watch?v=g8p7nAbDz6Y)
