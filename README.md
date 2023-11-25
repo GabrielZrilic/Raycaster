@@ -1,4 +1,4 @@
-# Raycaster - Završni rad
+# Raycasting i DDA - Završni rad
 
 U digitalnom svijetu, vizualna reprezentacija prostora ima ključnu ulogu. Raycasting, tehnika koja omogućuje prikazivanje 2D prostora u okružju koje simulira 3D dimenziju, nudi jedinstven pristup tom zadatku. Osim algoritma raycastinga, ovaj rad istražuje tehnologije koje su korištene.
 
@@ -289,6 +289,7 @@ public static void updateRotation() {
 }
 
 private static void rotate(double phi) {
+
     // Spremi početne vrijednosti
     double initDirX = dirX, initDirY = dirY;
     double initPlaneX = planeX, initPlaneY = planeY;
@@ -315,14 +316,214 @@ Ali jedna zraka ne može prikazati cijelu sliku. Zbog toga trebamo više zraka k
 #### Stvaranje zrake
 
 Prije nego što izračunamo odaljenost od kamere do objekta trebamo stvoriti zraku, točnije samo njezin smjer. To ćemo učiniti jediničnim vektorom. Za računanje toga porteban nam je $\overrightarrow{dir}$ i $\overrightarrow{plane}$.
+ingrementira
+Kada stvaramo zraku moramo odrediti u kojem je smjeru rotirana. Stvaramo klasu `Ray` i u toj klasi pokranjujemo skalare x i y osi. U konstruktoru određujemo početne skalare jer smjer zrake ovisi o redoslijedu kojim je ta zraka stvorena. Prvo određujemo `cameraX`, to jest koliko je smjer zrake udaljena od centra kamere. Dakle možemo zamisliti `cameraX` kao neku vrstu skalara. Prikazano je na slici što to predstavlja. Kako bismo izračunali `cameraX` koristimo koliko sve ukupno ima zraka i koja je zraka po redu: 
+
+$$
+cameraX = \frac{2 * redniBrojZrake} {ukupanBrojZraka} - 1
+$$
+
+![Slika 11](https://github.com/GabrielZrilic/Raycaster/blob/master/.images/Slika11.png)
+
+```java
+    class Ray {
+        public double dirX;
+        public double dirY;
+
+        public Ray(double w, double z) {
+            
+            // Koristimo formulu da izračunamo cameraX
+            double cameraX = 2 * z / w - 1;
+
+            // Računamo x skalar
+            dirX = Camera.dirX + Camera.planeX * cameraX;
+            
+            // Računamo y skalar
+            dirY = Camera.dirY + Camera.planeY * cameraX;
+        }
+    }
+```
+
+Kada znamo kako izračunati jednu zraku možemo izračunati i ostale. Samo napravimo niz u koji se spremaju zrake.
+
+```java
+    // Funkcija koja vraća niz zraka
+    public static Ray[] createUnitVectors() {
+
+        // Stvori niz
+        Ray[] rays = new Ray[numberOfRays];
+
+        // Petljom prođi kroz novostvoreni niz i stvori zraku na svakom polju
+        for (int i = 0; i < numberOfRays; i++)
+            rays[i] = new Ray((double) numberOfRays, (double) i);
+        
+        // Vrati niz
+        return rays;
+    }
+```
+
+#### DDA
+
+Za računanje udaljenosti od kamere do točke kolizije zrake koristimo DDA (Digital Differential Analyzer). To je jednostavan algoritam koji postupno povećava x i y koordinate (u našem slučaju skalare vektora) i provjerava dolazi li do kolizije. Pošto su nama objekti za koliziju postavljeni u 2D niz veoma je jednostavno to provjeriti.
+
+Kada DDA počne, provjerava je li x ili y stranica bliža kraju zrake. Nakon toga onda inkrementira manju stranu za širinu, odnosno visinu polja. Ali prvo inkrementiramo za razliku od kamere do najbliže stranice. Nakon svakog inkrementiranja provjerimo postoji li zid na tom polju. To napravimo za svaku zraku i izračunamo udaljenost od točke kolizije do $\overrightarrow{plane}$ Sljedeća slika prikazuje na koje udaljenosti se misli. `sideDistX` i `sideDistY` su udaljenosti kojima računamo najbližu stranicu samo u prvom koraku, a `deltaDistX` i `deltaDistY` za koje inkrementiramo sideDist u svakom idućem koraku.
+
+![Slika 12](https://github.com/GabrielZrilic/Raycaster/blob/master/.images/Slika12.png)
+
+Kada računamo deltaDist koristimo formule:
+
+$$
+deltaDistX = \sqrt{1 + \frac{dirY^2}{dirX^2}}
+$$
+
+$$
+deltaDistY = \sqrt{1 + \frac{dirX^2}{dirY^2}}
+$$
+
+Kada imamo deltaDist računamo sideDist na različite načine, ovisi o položaju u 2D arrayu i rotaciji kamere.
+
+Pošto tijekom izvođenja `while` petlje pratimo pogađamo li vertikalne ili vodoravne stranice možemo odrediti koji deltaDist koristimo za međusobnu udaljenost. Odnosno ako je zadnja vrijednost `Side.EAST_WEST` onda računamo s x osi, inače računamo s y osi.
+
+Pomoću međusobne udaljenosti računamo visinu linije koju ćemo crtati. Koristimo formulu:
+
+$$
+perpWallDist = sideDistX - deltaDistX
+$$
+
+ili
+
+$$
+perpWallDist = sideDistX - deltaDistX
+$$
+
+pa onda
+
+$$
+lineHeigth = \frac{windowHeight}{perpWallDist}
+$$
+
+Nakon što imamo udajenost izračunamo svjetlinu. Što je udaljenost veća do je linija tamnija.
+
+```java
+public static RayLines[] dda(Ray[] rays) {
+        RayLines[] lineHeights = new RayLines[numberOfRays];
+        for (int i = 0; i < rays.length; i++) {
+            int mapX = (int) (Camera.x);
+            int mapY = (int) (Camera.y);
+
+            double sideDistX;
+            double sideDistY;
+
+            // Računanje deltaDist
+            double deltaDistX = Math
+                    .sqrt(1 + (rays[i].dirY * rays[i].dirY)
+                            / (rays[i].dirX * rays[i].dirX));
+            double deltaDistY = Math
+                    .sqrt(1 + (rays[i].dirX * rays[i].dirX)
+                            / (rays[i].dirY * rays[i].dirY));
+            double perpWallDist;
+
+            double stepX = 0, stepY = 0;
+            boolean hit = false;
+            Side side = null;
+
+            // Računanje sideDist
+            if (rays[i].dirX < 0) {
+                stepX = -1;
+                sideDistX = (Camera.x - mapX) * deltaDistX;
+            } else {
+                stepX = 1;
+                sideDistX = (mapX + 1 - Camera.x) * deltaDistX;
+            }
+            if (rays[i].dirY < 0) {
+                stepY = -1;
+                sideDistY = (Camera.y - mapY) * deltaDistY;
+            } else {
+                stepY = 1;
+                sideDistY = (mapY + 1 - Camera.y) * deltaDistY;
+            }
+
+
+            // DDA petlja koja provjerava koliziju
+            while (!hit) {
+                if (sideDistX < sideDistY) {
+                    sideDistX += deltaDistX;
+                    mapX += stepX;
+                    side = Side.EAST_WEST;
+                } else {
+                    sideDistY += deltaDistY;
+                    mapY += stepY;
+                    side = Side.NORTH_SOUTH;
+                }
+                if (mapY < 0 || mapY >= Constants.map.length || mapX < 0 || mapX >= Constants.map.length
+                        || Constants.map[mapY][mapX] == true)
+                    hit = true;
+            }
+
+            Color color;
+            int height = 0;
+            int brightness = 0;
+
+            // Izračunaj visinu i svjetlinu linije
+            if (side == Side.EAST_WEST) {
+                perpWallDist = (sideDistX - deltaDistX);
+                height = (int) (Constants.windowHeight / perpWallDist);
+                brightness = (int) ((distanceOfView * 255) / sideDistX);
+                if (brightness > 255)
+                    brightness = 255;
+                color = new Color(brightness, brightness, brightness);
+            } else {
+                perpWallDist = (sideDistY - deltaDistY);
+                height = (int) (Constants.windowHeight / perpWallDist);
+                brightness = (int) ((distanceOfView * 255) / sideDistY);
+                if (brightness > 200)
+                    brightness = 200;
+                color = new Color(brightness, brightness, brightness);
+            }
+
+            // Spremi podatke linije u niz
+            lineHeights[i] = new RayLines(height, color);
+        }
+
+        // Vrati sve linije
+        return lineHeights;
+    }
+```
 
 #### Prikaz zrake
-todo
+Nakon računanja svih linija moramo ih nacrtati. Samo pomoću `for` petlje prođemo kroz niz linija i nacrtamo svaku liniju.
+
+```java
+    private void drawRays(Graphics2D g2d) {
+
+        // Stvori jedinične vektore (zrake)
+        Ray[] rays = Raycasting.createUnitVectors();
+        
+        // Stvori listu u koju će se spremati zrake
+        RayLines[] lines = new RayLines[Raycasting.numberOfRays];
+        
+        // Izračunaj sve zrake pomoću DDA
+        lines = Raycasting.dda(rays);
+
+        // For petlja koja određuje koordinate svake linije
+        // Pomoću visine i rednog broja linije određuje se x1, x2, y1 i y2 koordinata 
+        for (int i = 0, x = Constants.windowWidth; i < Raycasting.numberOfRays; i++, x -= Constants.windowWidth
+                / Raycasting.numberOfRays) {
+            g2d.setColor(lines[i].color);
+            g2d.drawLine(x, (int) (Constants.windowHeight / 2 - lines[i].height / 2), x,
+                    (int) (Constants.windowHeight / 2 + lines[i].height / 2));
+        }
+    }
+```
 
 ## Zaključak
+
+
+
 ## Literatura
-- [Java (programski jezik)](https://hr.wikipedia.org/wiki/Java_(programski_jezik))
-- [Swing (Java)](https://en.wikipedia.org/wiki/Swing_(Java))
+- [The Java Tutorials](https://docs.oracle.com/javase/tutorial/)
+- [Wikipedia - Java (programski jezik)](https://hr.wikipedia.org/wiki/Java_(programski_jezik))
+- [Wikipedia - Swing (Java)](https://en.wikipedia.org/wiki/Swing_(Java))
 - [Wikipedia - Ray casting](https://en.wikipedia.org/wiki/Ray_casting)
 - [Lode's Computer Graphics Tutorial](https://lodev.org/cgtutor/raycasting.html)
 - [Ray casting fully explained. Pseudo 3D game](https://www.youtube.com/watch?v=g8p7nAbDz6Y)
