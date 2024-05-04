@@ -1,6 +1,6 @@
-# Raycasting i DDA - Završni rad
+# Ray casting i DDA - Završni rad
 
-U digitalnom svijetu, vizualna reprezentacija prostora ima ključnu ulogu. Raycasting, tehnika koja omogućuje prikazivanje 2D prostora u okružju koje simulira 3D dimenziju, nudi jedinstven pristup tom zadatku. Osim algoritma raycastinga, ovaj rad istražuje tehnologije koje su korištene.
+U digitalnom svijetu, vizualna reprezentacija prostora ima ključnu ulogu. Ray casting, tehnika koja omogućuje prikazivanje 2D prostora u okružju koje simulira 3D dimenziju, nudi jedinstven pristup tom zadatku. Osim algoritma ray castinga, ovaj rad istražuje tehnologije koje su korištene.
 
 ## Sadržaj
 - [Raycaster](#raycaster)
@@ -13,7 +13,7 @@ U digitalnom svijetu, vizualna reprezentacija prostora ima ključnu ulogu. Rayca
     - [Pomicanje, rotacija i vektori](#pomicanje-rotacija-i-vektori)
         - [Pomak](#pomak)
         - [Rotacija](#rotacija)
-    - [Raycasting](#raycasting)
+    - [Ray casting](#ray-casting)
         - [Stvaranje zrake](#stvaranje-zrake)
         - [Prikaz zrake](#prikaz-zrake)
 - [Zaključak](#zaključak)
@@ -30,13 +30,13 @@ Kod programa možete pokrenuti iz svog odabranog uređivača koda ili jednostavn
 
 ### Korištenje
 
-Ovaj program služi za demonstraciju raycasting algoritma i pruža praktičan primjer upotrebe Java programskog jezika.
+Ovaj program služi za demonstraciju ray casting algoritma i pruža praktičan primjer upotrebe Java programskog jezika.
 
 Kada pokrenete aplikaciju, otvorit će se prozor (vidi Sliku 1) koji sadrži tablicu s raznim gumbovima, uključujući i gumb `Create`. Ovaj prozor predstavlja sučelje za stvaranje mape kroz koju će se kamera simulirano kretati.
 
 ![Slika 1](https://github.com/GabrielZrilic/Raycaster/blob/master/.images/Slika1.png)
 
-Klikanjem na gumbe, možete jednostavno dodavati ili uklanjati zidove na mapi (vidi Sliku 2). Sustav zidova je organiziran u tablici, što je ključno za ispravno funkcioniranje raycasting (DDA) algoritma.
+Klikanjem na gumbe, možete jednostavno dodavati ili uklanjati zidove na mapi (vidi Sliku 2). Sustav zidova je organiziran u tablici, što je ključno za ispravno funkcioniranje ray casting (DDA) algoritma.
 
 ![Slika 2](https://github.com/GabrielZrilic/Raycaster/blob/master/.images/Slika2.png)
 
@@ -44,7 +44,7 @@ Kada završite s postavljanjem zidova, jednostavno pritisnite gumb `Create`. Pro
 
 ![Slika 3](https://github.com/GabrielZrilic/Raycaster/blob/master/.images/Slika3.png)
 
-Ovaj program pruža zanimljivu vizualizaciju rada raycasting algoritma i omogućuje vam da eksperimentirate s različitim mapama kako biste bolje razumjeli njegovo funkcioniranje.
+Ovaj program pruža zanimljivu vizualizaciju rada ray casting algoritma i omogućuje vam da eksperimentirate s različitim mapama kako biste bolje razumjeli njegovo funkcioniranje.
 
 ### Java
 Java je programski jezik koji je razvijen od tvrtke Sun Microsystems. To je objrktno orijentinan programski jezik, što znači da su podaci i funkcije podjeljeni u klase, koje omogućuju stvaranje objekata, nasljeđivanje, enkapsulacija, polimorfizam i apstrakciju.
@@ -307,9 +307,9 @@ private static void rotate(double phi) {
 }
 ```
 
-### Raycasting
+### Ray casting
 
-Raycasting tehnika *ispaljuje* zrake, kada zraka naiđe na prepreku izračuna se udaljenost od početne točke do prepreke. Koristeći tu udaljenost i $\overrightarrow{plane}$ izračunamo okomucu na $\overrightarrow{plane}$ od točke kolizije s preprekom.
+Ray casting tehnika *ispaljuje* zrake, kada zraka naiđe na prepreku izračuna se udaljenost od početne točke do prepreke. Koristeći tu udaljenost i $\overrightarrow{plane}$ izračunamo okomucu na $\overrightarrow{plane}$ od točke kolizije s preprekom.
 
 Ali jedna zraka ne može prikazati cijelu sliku. Zbog toga trebamo više zraka koje idu u različite smjerove. Trebamo onoliko vektora (zraka) koliko je širok ekran.
 
