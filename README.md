@@ -16,9 +16,7 @@ U digitalnom svijetu, vizualna reprezentacija prostora ima ključnu ulogu. Ray c
     - [Ray casting](#ray-casting)
         - [Stvaranje zrake](#stvaranje-zrake)
         - [Prikaz zrake](#prikaz-zrake)
-- [Zaključak](#zaključak)
 - [Literatura](#literatura)
-- [Prilozi](#prilozi)
 
 ## Raycaster
 
@@ -516,14 +514,9 @@ Nakon računanja svih linija moramo ih nacrtati. Samo pomoću `for` petlje prođ
     }
 ```
 
-## Zaključak
-
-
-
 ## Literatura
 - [The Java Tutorials](https://docs.oracle.com/javase/tutorial/)
 - [Wikipedia - Java (programski jezik)](https://hr.wikipedia.org/wiki/Java_(programski_jezik))
 - [Wikipedia - Swing (Java)](https://en.wikipedia.org/wiki/Swing_(Java))
 - [Wikipedia - Ray casting](https://en.wikipedia.org/wiki/Ray_casting)
 - [Lode's Computer Graphics Tutorial](https://lodev.org/cgtutor/raycasting.html)
-- [Ray casting fully explained. Pseudo 3D game](https://www.youtube.com/watch?v=g8p7nAbDz6Y)
